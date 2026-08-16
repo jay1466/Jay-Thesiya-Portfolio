@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0a18"/>
+      <stop offset="100%" stop-color="#06060e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="text-grad" x1="4" y1="8" x2="28" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e0f7ff"/>
+      <stop offset="100%" stop-color="#c4b5fd"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Glowing border ring -->
+  <rect x="1" y="1" width="30" height="30" rx="6.2" stroke="url(#accent)" stroke-width="1" fill="none" opacity="0.7"/>
+
+  <!-- Inner subtle glow -->
+  <rect x="3" y="3" width="26" height="26" rx="5" stroke="url(#accent)" stroke-width="0.4" fill="none" opacity="0.3"/>
+
+  <!-- "J" letter -->
+  <text
+    x="5"
+    y="23"
+    font-family="'Space Grotesk', 'Segoe UI', sans-serif"
+    font-size="16"
+    font-weight="700"
+    fill="url(#text-grad)"
+    letter-spacing="-0.5"
+  >JT</text>
+
+  <!-- Small accent dot bottom-right -->
+  <circle cx="26.5" cy="26.5" r="2" fill="url(#accent)" opacity="0.9"/>
+</svg>

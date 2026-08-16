@@ -17,17 +17,15 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
 import { MinimalFoldSection } from './components/MinimalFoldSection';
+import { ParticleField } from './components/ParticleField';
 
 export default function App() {
   const [showPreloader, setShowPreloader] = useState<boolean>(true);
   const [showFloatingTop, setShowFloatingTop] = useState<boolean>(false);
 
-  // Initialize high-performance, studio-grade smooth scrolling
+  /* ── High-performance smooth scrolling ── */
   useEffect(() => {
-    // Respect reduced motion settings
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const lenis = new Lenis({
       duration: 1.5,
@@ -46,10 +44,8 @@ export default function App() {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     const animId = requestAnimationFrame(raf);
 
-    // Global scroll listener for hash anchor links
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a');
       if (!target) return;
@@ -62,7 +58,6 @@ export default function App() {
         }
       }
     };
-
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
@@ -73,18 +68,12 @@ export default function App() {
     };
   }, []);
 
-  // Scroll Progress Bar with smooth spring
+  /* ── Scroll progress bar ── */
   const { scrollYProgress, scrollY } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    restDelta: 0.001,
-  });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
-    return scrollY.on('change', (latest) => {
-      setShowFloatingTop(latest > 500);
-    });
+    return scrollY.on('change', latest => setShowFloatingTop(latest > 500));
   }, [scrollY]);
 
   const scrollToTop = () => {
@@ -96,28 +85,36 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060608] text-[#e4e4eb] relative selection:bg-white selection:text-black">
-      
-      {/* Desktop subtle custom cursor */}
+    <div className="min-h-screen text-[var(--text-primary)] relative selection:bg-[var(--accent-cyan)] selection:text-black"
+      style={{ background: 'var(--bg)' }}
+    >
+      {/* Global Canvas Particle Field */}
+      <ParticleField count={75} />
+
+      {/* Custom cursor */}
       <CustomCursor />
 
-      {/* Cinematic intro sequence on initial load */}
+      {/* Cinematic intro */}
       <AnimatePresence>
         {showPreloader && (
           <IntroVideo onComplete={() => setShowPreloader(false)} />
         )}
       </AnimatePresence>
 
-      {/* Top subtle reading progress bar */}
+      {/* Gradient scroll progress bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-white z-50 origin-left"
-        style={{ scaleX }}
+        className="fixed top-0 left-0 right-0 h-[2px] z-50 origin-left"
+        style={{
+          scaleX,
+          background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink))',
+          boxShadow: '0 0 8px rgba(0,229,255,0.7)',
+        }}
       />
 
-      {/* Main Navigation */}
+      {/* Navigation */}
       <Navbar />
 
-      {/* Main Single-Page Content Stream with Minimalist Unfolding Scroll Physics */}
+      {/* Main content */}
       <main id="main-content" className="relative z-10">
         <MinimalFoldSection isHero>
           <Hero />
@@ -160,29 +157,41 @@ export default function App() {
         </MinimalFoldSection>
       </main>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Floating Back to Top Button */}
+      {/* Back to top — gradient ring */}
       <AnimatePresence>
         {showFloatingTop && (
           <motion.button
             id="floating-back-to-top-btn"
             onClick={scrollToTop}
-            initial={{ opacity: 0, y: 15, scale: 0.9 }}
+            initial={{ opacity: 0, y: 16, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 15, scale: 0.9 }}
-            whileHover={{ y: -3, scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-40 p-3 bg-zinc-950/90 border border-zinc-800 hover:border-zinc-500 text-zinc-300 hover:text-white rounded-none shadow-2xl backdrop-blur-md transition-colors cursor-pointer"
+            exit={{ opacity: 0, y: 16, scale: 0.85 }}
+            whileHover={{ y: -4, scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            className="fixed bottom-6 right-6 z-40 w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
+            style={{
+              background: 'rgba(2,2,9,0.9)',
+              border: '1px solid rgba(0,229,255,0.35)',
+              boxShadow: '0 0 20px rgba(0,229,255,0.2), 0 4px 20px rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(12px)',
+            }}
             title="Scroll to top"
             aria-label="Scroll to top"
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 30px rgba(0,229,255,0.4), 0 0 60px rgba(139,92,246,0.2)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.7)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,229,255,0.2), 0 4px 20px rgba(0,0,0,0.5)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.35)';
+            }}
           >
-            <ArrowUp size={16} />
+            <ArrowUp size={16} style={{ color: 'var(--accent-cyan)' }} />
           </motion.button>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
