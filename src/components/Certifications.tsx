@@ -8,7 +8,7 @@ import { SectionHeading } from './SectionHeading';
 
 /* ── Category & icon config ─────────────────────────────────────── */
 const CERT_ICON_MAP: Record<string, { icon: React.FC<any>; color: string; glow: string }> = {
-  MySQL:       { icon: Award,      color: '#00e5ff', glow: 'rgba(0,229,255,0.2)'   },
+  MySQL:       { icon: Award,      color: '#22d3ee', glow: 'rgba(34,211,238,0.2)'   },
   'Open Source':{ icon: Globe,     color: '#10b981', glow: 'rgba(16,185,129,0.2)'  },
   CodeFest:    { icon: Code,       color: '#f59e0b', glow: 'rgba(245,158,11,0.2)'  },
   'Java Certificate': { icon: FileText, color: '#8b5cf6', glow: 'rgba(139,92,246,0.2)' },
@@ -21,7 +21,7 @@ function getCertConfig(title: string) {
   for (const [key, cfg] of Object.entries(CERT_ICON_MAP)) {
     if (title.includes(key)) return cfg;
   }
-  return { icon: Award, color: '#00e5ff', glow: 'rgba(0,229,255,0.2)' };
+  return { icon: Award, color: '#22d3ee', glow: 'rgba(34,211,238,0.2)' };
 }
 
 function hexToRgb(hex: string) {
@@ -58,8 +58,8 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
     setHovered(false);
   };
 
-  const catColor = cert.category === 'Technical' ? '#00e5ff' : '#10b981';
-  const catGlow  = cert.category === 'Technical' ? 'rgba(0,229,255,0.2)' : 'rgba(16,185,129,0.2)';
+  const catColor = cert.category === 'Technical' ? '#22d3ee' : '#10b981';
+  const catGlow  = cert.category === 'Technical' ? 'rgba(34,211,238,0.2)' : 'rgba(16,185,129,0.2)';
 
   return (
     <motion.div
@@ -86,8 +86,8 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
         <div
           className="h-full relative rounded-2xl overflow-hidden flex flex-col"
           style={{
-            background: 'rgba(6,6,20,0.85)',
-            border: `1px solid ${hovered ? cfg.color + '50' : 'rgba(0,229,255,0.1)'}`,
+            background: 'rgba(15,19,31,0.85)',
+            border: `1px solid ${hovered ? cfg.color + '50' : 'rgba(34,211,238,0.1)'}`,
             boxShadow: hovered
               ? `0 0 50px ${cfg.glow}, 0 0 100px rgba(0,0,0,0.3), 0 8px 50px rgba(0,0,0,0.7)`
               : '0 4px 30px rgba(0,0,0,0.5)',
@@ -100,7 +100,7 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
             className="absolute inset-0 pointer-events-none rounded-2xl z-10 transition-opacity duration-300"
             style={{
               opacity: shine.opacity,
-              background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(0,229,255,0.1) 0%, rgba(139,92,246,0.08) 35%, rgba(236,72,153,0.06) 55%, transparent 70%)`,
+              background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(34,211,238,0.1) 0%, rgba(139,92,246,0.08) 35%, rgba(236,72,153,0.06) 55%, transparent 70%)`,
             }}
           />
           {/* Top shimmer line */}
@@ -118,9 +118,9 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
             className="relative overflow-hidden flex-shrink-0 cursor-pointer"
             style={{
               aspectRatio: '16 / 10',
-              background: `linear-gradient(135deg, rgba(6,6,20,1), rgba(14,14,40,1))`,
-            }}
-            style={{ transform: 'translateZ(10px)' } as any}
+              background: `linear-gradient(135deg, rgba(14,18,29,1), rgba(20,26,45,1))`,
+              transform: 'translateZ(10px)',
+            } as any}
           >
             {/* Background glow */}
             <div
@@ -181,7 +181,7 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
 
             {/* Hover overlay */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-              style={{ background: 'rgba(2,2,9,0.75)', backdropFilter: 'blur(4px)' }}>
+              style={{ background: 'rgba(10,14,23,0.75)', backdropFilter: 'blur(4px)' }}>
               <motion.span
                 initial={false}
                 animate={hovered ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
@@ -190,7 +190,7 @@ const CertCard: React.FC<{ cert: Certification; idx: number; onClick: () => void
                 style={{
                   background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-violet))',
                   color: '#fff',
-                  boxShadow: '0 0 20px rgba(0,229,255,0.4)',
+                  boxShadow: '0 0 20px rgba(34,211,238,0.4)',
                 }}
               >
                 <Eye size={12} />
@@ -256,7 +256,7 @@ export const Certifications: React.FC = () => {
     : CERTIFICATIONS.filter(c => c.category === selectedFilter);
 
   const FILTER_COLORS: Record<string, string> = {
-    All:         '#00e5ff',
+    All:         '#22d3ee',
     Technical:   '#8b5cf6',
     Achievement: '#10b981',
   };
@@ -317,7 +317,7 @@ export const Certifications: React.FC = () => {
           {/* Counter */}
           <span
             className="ml-auto text-[10px] font-mono px-2.5 py-1 rounded-full"
-            style={{ background: 'rgba(0,229,255,0.06)', color: 'var(--text-muted)', border: '1px solid rgba(0,229,255,0.15)' }}
+            style={{ background: 'rgba(34,211,238,0.06)', color: 'var(--text-muted)', border: '1px solid rgba(34,211,238,0.15)' }}
           >
             {filteredCerts.length} credential{filteredCerts.length !== 1 ? 's' : ''}
           </span>

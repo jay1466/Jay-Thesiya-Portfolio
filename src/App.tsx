@@ -107,7 +107,7 @@ export default function App() {
         style={{
           scaleX,
           background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink))',
-          boxShadow: '0 0 8px rgba(0,229,255,0.7)',
+          boxShadow: '0 0 8px rgba(34,211,238,0.7)',
         }}
       />
 
@@ -172,20 +172,20 @@ export default function App() {
             whileTap={{ scale: 0.92 }}
             className="fixed bottom-6 right-6 z-40 w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
             style={{
-              background: 'rgba(2,2,9,0.9)',
-              border: '1px solid rgba(0,229,255,0.35)',
-              boxShadow: '0 0 20px rgba(0,229,255,0.2), 0 4px 20px rgba(0,0,0,0.5)',
+              background: 'rgba(10,14,23,0.9)',
+              border: '1px solid rgba(34,211,238,0.35)',
+              boxShadow: '0 0 20px rgba(34,211,238,0.2), 0 4px 20px rgba(0,0,0,0.5)',
               backdropFilter: 'blur(12px)',
             }}
             title="Scroll to top"
             aria-label="Scroll to top"
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 30px rgba(0,229,255,0.4), 0 0 60px rgba(139,92,246,0.2)';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.7)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 30px rgba(34,211,238,0.4), 0 0 60px rgba(139,92,246,0.2)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.7)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,229,255,0.2), 0 4px 20px rgba(0,0,0,0.5)';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.35)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,211,238,0.2), 0 4px 20px rgba(0,0,0,0.5)';
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)';
             }}
           >
             <ArrowUp size={16} style={{ color: 'var(--accent-cyan)' }} />

@@ -5,7 +5,7 @@ import { EDUCATIONS } from '../data/portfolioData';
 import { SplitLeft, SplitRight } from './SplitSection';
 
 const EDU_COLORS = [
-  { color: '#00e5ff', glow: 'rgba(0,229,255,0.15)',   bg: 'rgba(0,229,255,0.08)'   },
+  { color: '#22d3ee', glow: 'rgba(34,211,238,0.15)',   bg: 'rgba(34,211,238,0.08)'   },
   { color: '#8b5cf6', glow: 'rgba(139,92,246,0.15)',  bg: 'rgba(139,92,246,0.08)'  },
   { color: '#ec4899', glow: 'rgba(236,72,153,0.15)',  bg: 'rgba(236,72,153,0.08)'  },
 ];
@@ -33,8 +33,8 @@ const EduCard: React.FC<{ edu: any; idx: number }> = ({ edu, idx }) => {
       whileHover={{ y: -5 }}
       className="relative rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(8,8,26,0.82)',
-        border: `1px solid ${hovered ? cfg.color + '45' : 'rgba(0,229,255,0.1)'}`,
+        background: 'rgba(20,26,41,0.82)',
+        border: `1px solid ${hovered ? cfg.color + '45' : 'rgba(34,211,238,0.1)'}`,
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
         boxShadow: hovered
@@ -206,7 +206,7 @@ export const Education: React.FC = () => (
                 width: '28px',
                 background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
                 borderRadius: '2px',
-                boxShadow: '0 0 8px rgba(0,229,255,0.5)',
+                boxShadow: '0 0 8px rgba(34,211,238,0.5)',
               }}
             />
             <span className="text-[11px] font-mono tracking-widest uppercase font-semibold" style={{ color: 'var(--accent-cyan)' }}>
@@ -223,7 +223,7 @@ export const Education: React.FC = () => (
 
           {/* Decorative grid */}
           <div className="mt-8 rounded-2xl p-4 relative overflow-hidden"
-            style={{ background: 'rgba(8,8,26,0.7)', border: '1px solid rgba(0,229,255,0.08)' }}>
+            style={{ background: 'rgba(20,26,41,0.7)', border: '1px solid rgba(34,211,238,0.08)' }}>
             <div className="absolute inset-0 bg-hex-pattern opacity-20 pointer-events-none" />
             <div className="relative z-10 flex items-center gap-2 mb-3">
               <BookOpen size={14} style={{ color: 'var(--accent-cyan)' }} />
@@ -235,7 +235,7 @@ export const Education: React.FC = () => (
               <div key={edu.id} className="flex items-center gap-2 text-[10px] font-mono mb-1.5 last:mb-0">
                 <span
                   className="h-1.5 w-1.5 rounded-full flex-shrink-0"
-                  style={{ background: EDU_COLORS[i]?.color ?? '#00e5ff', boxShadow: `0 0 6px ${EDU_COLORS[i]?.color ?? '#00e5ff'}` }}
+                  style={{ background: EDU_COLORS[i]?.color ?? '#22d3ee', boxShadow: `0 0 6px ${EDU_COLORS[i]?.color ?? '#22d3ee'}` }}
                 />
                 <span style={{ color: 'var(--text-muted)' }}>{edu.degree.split(' in ')[0]}</span>
               </div>

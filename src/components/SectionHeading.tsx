@@ -38,7 +38,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
             width: '28px',
             background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
             borderRadius: '2px',
-            boxShadow: '0 0 8px rgba(0,229,255,0.5)',
+            boxShadow: '0 0 8px rgba(34,211,238,0.5)',
           }}
         />
         <span className="text-[11px] font-mono tracking-widest uppercase font-semibold" style={{ color: 'var(--accent-cyan)' }}>

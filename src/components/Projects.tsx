@@ -10,12 +10,12 @@ const CAT_CONFIG: Record<string, { color: string; glow: string; icon: React.FC<a
   FINTECH:    { color: '#10b981', glow: 'rgba(16,185,129,0.20)', icon: Database    },
   SECURITY:   { color: '#8b5cf6', glow: 'rgba(139,92,246,0.20)', icon: ShieldCheck },
   'ML / NLP': { color: '#ec4899', glow: 'rgba(236,72,153,0.20)', icon: Layers      },
-  ENTERPRISE: { color: '#00e5ff', glow: 'rgba(0,229,255,0.20)',  icon: Server      },
+  ENTERPRISE: { color: '#22d3ee', glow: 'rgba(34,211,238,0.20)',  icon: Server      },
   HEALTHCARE: { color: '#f59e0b', glow: 'rgba(245,158,11,0.20)', icon: Server      },
   ECOMMERCE:  { color: '#6366f1', glow: 'rgba(99,102,241,0.20)', icon: Server      },
 };
 
-const DEFAULT_CAT = { color: '#00e5ff', glow: 'rgba(0,229,255,0.18)', icon: Server };
+const DEFAULT_CAT = { color: '#22d3ee', glow: 'rgba(34,211,238,0.18)', icon: Server };
 
 const CATEGORIES = ['ALL', 'FINTECH', 'SECURITY', 'ML / NLP', 'ENTERPRISE', 'HEALTHCARE'];
 
@@ -82,7 +82,7 @@ const HoloCard: React.FC<HoloCardProps> = ({ project, onClick }) => {
         <div
           className="h-full relative rounded-2xl overflow-hidden flex flex-col"
           style={{
-            background: 'rgba(6,6,20,0.85)',
+            background: 'rgba(15,19,31,0.85)',
             border: `1px solid rgba(255,255,255,0.08)`,
             boxShadow: '0 4px 30px rgba(0,0,0,0.6)',
             backdropFilter: 'blur(20px)',
@@ -102,7 +102,7 @@ const HoloCard: React.FC<HoloCardProps> = ({ project, onClick }) => {
             className="absolute inset-0 pointer-events-none rounded-2xl z-10 transition-opacity duration-300"
             style={{
               opacity: shine.opacity,
-              background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(0,229,255,0.1) 0%, rgba(139,92,246,0.08) 35%, rgba(236,72,153,0.06) 55%, transparent 70%)`,
+              background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(34,211,238,0.1) 0%, rgba(139,92,246,0.08) 35%, rgba(236,72,153,0.06) 55%, transparent 70%)`,
             }}
           />
 
@@ -117,7 +117,7 @@ const HoloCard: React.FC<HoloCardProps> = ({ project, onClick }) => {
 
           {/* Project image preview */}
           <div className="relative h-36 overflow-hidden flex-shrink-0"
-            style={{ background: `linear-gradient(135deg, rgba(6,6,20,1), rgba(14,14,40,1))` }}
+            style={{ background: `linear-gradient(135deg, rgba(15,19,31,1), rgba(23,29,48,1))` }}
           >
             {project.imageUrl && (
               <img
@@ -126,7 +126,7 @@ const HoloCard: React.FC<HoloCardProps> = ({ project, onClick }) => {
                 className="w-full h-full object-cover opacity-20 group-hover:opacity-45 transition-all duration-700 scale-110 group-hover:scale-100"
               />
             )}
-            <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(6,6,20,1))` }} />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(15,19,31,1))` }} />
 
             {/* Gradient color wash */}
             <div
@@ -284,12 +284,12 @@ export const Projects: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 className="px-3.5 py-1.5 rounded-full text-[11px] font-mono font-semibold transition-all cursor-pointer relative overflow-hidden"
                 style={isActive ? {
-                  background: cfg ? `rgba(${hexToRgb(cfg.color)}, 0.18)` : 'rgba(0,229,255,0.14)',
+                  background: cfg ? `rgba(${hexToRgb(cfg.color)}, 0.18)` : 'rgba(34,211,238,0.14)',
                   color: cfg?.color ?? 'var(--accent-cyan)',
                   border: `1px solid ${cfg?.color ?? 'var(--accent-cyan)'}55`,
                   boxShadow: cfg
                     ? `0 0 20px ${cfg.glow}, inset 0 0 10px rgba(255,255,255,0.02)`
-                    : '0 0 20px rgba(0,229,255,0.15)',
+                    : '0 0 20px rgba(34,211,238,0.15)',
                 } : {
                   background: 'rgba(255,255,255,0.03)',
                   color: 'var(--text-muted)',
@@ -301,7 +301,7 @@ export const Projects: React.FC = () => {
                   <motion.span
                     layoutId="filterGlow"
                     className="absolute inset-0 rounded-full pointer-events-none"
-                    style={{ background: cfg ? `radial-gradient(circle, ${cfg.glow} 0%, transparent 70%)` : 'radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 70%)' }}
+                    style={{ background: cfg ? `radial-gradient(circle, ${cfg.glow} 0%, transparent 70%)` : 'radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 70%)' }}
                   />
                 )}
                 <span className="relative z-10">{cat}</span>
@@ -331,10 +331,10 @@ export const Projects: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mt-12 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 spotlight"
           style={{
-            background: 'rgba(8,8,26,0.7)',
-            border: '1px solid rgba(0,229,255,0.12)',
+            background: 'rgba(20,26,41,0.7)',
+            border: '1px solid rgba(34,211,238,0.12)',
             backdropFilter: 'blur(20px)',
-            boxShadow: '0 0 40px rgba(0,229,255,0.05)',
+            boxShadow: '0 0 40px rgba(34,211,238,0.05)',
           }}
         >
           <div>

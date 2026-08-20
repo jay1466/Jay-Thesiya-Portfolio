@@ -10,7 +10,7 @@ import { SplitLeft, SplitRight } from './SplitSection';
 
 const PILLAR_CARDS = [
   {
-    icon: Server, color: '#00e5ff', glow: 'rgba(0,229,255,0.15)',
+    icon: Server, color: '#22d3ee', glow: 'rgba(34,211,238,0.15)',
     title: 'Microservices Architecture',
     desc: 'Decoupled, containerized services with Spring Cloud, Eureka discovery, resilient circuit breakers, and distributed tracing.',
   },
@@ -36,7 +36,7 @@ const HOBBY_ICONS: Record<string, React.FC<any>> = {
 };
 
 const HOBBY_COLORS: Record<string, string> = {
-  Cricket:             '#00e5ff',
+  Cricket:             '#22d3ee',
   Traveling:           '#8b5cf6',
   'Listening to Music':'#ec4899',
   'Exploring New Tech':'#10b981',
@@ -44,7 +44,7 @@ const HOBBY_COLORS: Record<string, string> = {
   Gaming:              '#6366f1',
 };
 
-const STAT_COLORS = ['#00e5ff', '#8b5cf6', '#10b981', '#f59e0b'];
+const STAT_COLORS = ['#22d3ee', '#8b5cf6', '#10b981', '#f59e0b'];
 
 function hexToRgb(hex: string) {
   const r = parseInt(hex.slice(1,3), 16);
@@ -67,7 +67,7 @@ const PillarCard: React.FC<{ icon: React.FC<any>; color: string; glow: string; t
       transition={{ duration: 0.28 }}
       className="rounded-xl p-5 relative overflow-hidden"
       style={{
-        background: 'rgba(8,8,26,0.8)',
+        background: 'rgba(20,26,41,0.8)',
         border: `1px solid ${hovered ? color + '40' : 'rgba(255,255,255,0.07)'}`,
         backdropFilter: 'blur(20px)',
         boxShadow: hovered
@@ -133,7 +133,7 @@ const StatCard: React.FC<{ stat: any; color: string; index: number }> = ({ stat,
       whileHover={{ y: -6 }}
       className="rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden"
       style={{
-        background: 'rgba(8,8,26,0.8)',
+        background: 'rgba(20,26,41,0.8)',
         border: `1px solid ${hovered ? color + '45' : 'rgba(255,255,255,0.07)'}`,
         backdropFilter: 'blur(20px)',
         boxShadow: hovered
@@ -224,15 +224,15 @@ export const About: React.FC = () => (
             transition={{ duration: 0.3 }}
             className="rounded-2xl p-7 relative overflow-hidden spotlight"
             style={{
-              background: 'rgba(8,8,26,0.82)',
-              border: '1px solid rgba(0,229,255,0.14)',
+              background: 'rgba(20,26,41,0.82)',
+              border: '1px solid rgba(34,211,238,0.14)',
               backdropFilter: 'blur(24px)',
-              boxShadow: '0 0 40px rgba(0,229,255,0.06)',
+              boxShadow: '0 0 40px rgba(34,211,238,0.06)',
             }}
           >
             {/* Top shimmer line */}
             <div className="absolute top-0 left-0 right-0 h-px"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(0,229,255,0.4), rgba(139,92,246,0.3), transparent)' }}
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(34,211,238,0.4), rgba(139,92,246,0.3), transparent)' }}
             />
             <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
               <strong className="text-white font-semibold">Passionate Java Backend Developer and IT student</strong>{' '}
@@ -277,7 +277,7 @@ export const About: React.FC = () => (
         transition={{ duration: 0.5 }}
         className="rounded-2xl p-6 relative overflow-hidden"
         style={{
-          background: 'rgba(8,8,26,0.75)',
+          background: 'rgba(20,26,41,0.75)',
           border: '1px solid rgba(255,255,255,0.07)',
           backdropFilter: 'blur(20px)',
         }}
@@ -292,7 +292,7 @@ export const About: React.FC = () => (
         <div className="flex flex-wrap gap-3">
           {PERSONAL_INFO.hobbies.map(({ name, icon }) => {
             const Icon = HOBBY_ICONS[icon] || Activity;
-            const color = HOBBY_COLORS[name] || '#00e5ff';
+            const color = HOBBY_COLORS[name] || '#22d3ee';
             return (
               <motion.div
                 key={name}

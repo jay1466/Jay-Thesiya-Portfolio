@@ -64,11 +64,11 @@ export const Navbar: React.FC = () => {
         scrolled ? 'py-3' : 'py-5'
       }`}
       style={scrolled ? {
-        background: 'rgba(2,2,9,0.72)',
+        background: 'rgba(10,14,23,0.72)',
         backdropFilter: 'blur(32px) saturate(180%)',
         WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        borderBottom: '1px solid rgba(0,229,255,0.12)',
-        boxShadow: '0 4px 60px rgba(0,0,0,0.6), 0 0 1px rgba(0,229,255,0.12), 0 1px 0 rgba(139,92,246,0.06)',
+        borderBottom: '1px solid rgba(34,211,238,0.12)',
+        boxShadow: '0 4px 60px rgba(0,0,0,0.6), 0 0 1px rgba(34,211,238,0.12), 0 1px 0 rgba(139,92,246,0.06)',
       } : {
         background: 'transparent',
       }}
@@ -78,7 +78,7 @@ export const Navbar: React.FC = () => {
         <div
           className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
           style={{
-            background: 'linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.4) 30%, rgba(139,92,246,0.4) 70%, transparent 100%)',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.4) 30%, rgba(139,92,246,0.4) 70%, transparent 100%)',
           }}
         />
       )}
@@ -133,7 +133,7 @@ export const Navbar: React.FC = () => {
                     ? 'text-white'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
                 }`}
-                style={isActive ? { background: 'rgba(0,229,255,0.06)' } : {}}
+                style={isActive ? { background: 'rgba(34,211,238,0.06)' } : {}}
               >
                 {item.name}
                 {isActive && (
@@ -142,7 +142,7 @@ export const Navbar: React.FC = () => {
                     className="absolute bottom-0.5 left-2.5 right-2.5 h-[2px] rounded-full"
                     style={{
                       background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
-                      boxShadow: '0 0 8px rgba(0,229,255,0.6)',
+                      boxShadow: '0 0 8px rgba(34,211,238,0.6)',
                     }}
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
@@ -170,9 +170,9 @@ export const Navbar: React.FC = () => {
               className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-cyan)] rounded-lg transition-all"
               style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.4)';
-                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,229,255,0.2), inset 0 0 8px rgba(0,229,255,0.04)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(0,229,255,0.06)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.4)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,211,238,0.2), inset 0 0 8px rgba(34,211,238,0.04)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(34,211,238,0.06)';
               }}
               onMouseLeave={e => {
                 (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)';
@@ -203,9 +203,9 @@ export const Navbar: React.FC = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="lg:hidden p-2 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
           style={{
-            border: '1px solid rgba(0,229,255,0.18)',
-            background: 'rgba(0,229,255,0.05)',
-            boxShadow: mobileMenuOpen ? '0 0 16px rgba(0,229,255,0.2)' : 'none',
+            border: '1px solid rgba(34,211,238,0.18)',
+            background: 'rgba(34,211,238,0.05)',
+            boxShadow: mobileMenuOpen ? '0 0 16px rgba(34,211,238,0.2)' : 'none',
           }}
           aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
         >
@@ -225,7 +225,7 @@ export const Navbar: React.FC = () => {
             style={{
               background: 'rgba(3,3,14,0.96)',
               backdropFilter: 'blur(28px) saturate(180%)',
-              borderBottom: '1px solid rgba(0,229,255,0.14)',
+              borderBottom: '1px solid rgba(34,211,238,0.14)',
               boxShadow: '0 20px 60px rgba(0,0,0,0.7)',
             }}
           >
@@ -243,9 +243,9 @@ export const Navbar: React.FC = () => {
                     }`}
                     style={activeSection === item.id
                       ? {
-                          background: 'rgba(0,229,255,0.09)',
-                          borderColor: 'rgba(0,229,255,0.35)',
-                          boxShadow: '0 0 12px rgba(0,229,255,0.12)',
+                          background: 'rgba(34,211,238,0.09)',
+                          borderColor: 'rgba(34,211,238,0.35)',
+                          boxShadow: '0 0 12px rgba(34,211,238,0.12)',
                         }
                       : { background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.06)' }
                     }

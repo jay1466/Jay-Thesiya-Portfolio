@@ -5,7 +5,7 @@ import { EXPERIENCES } from '../data/portfolioData';
 import { SplitLeft, SplitRight } from './SplitSection';
 
 const TYPE_COLORS: Record<string, { color: string; bg: string }> = {
-  Internship:   { color: '#00e5ff', bg: 'rgba(0,229,255,0.1)'   },
+  Internship:   { color: '#22d3ee', bg: 'rgba(34,211,238,0.1)'   },
   Freelance:    { color: '#ec4899', bg: 'rgba(236,72,153,0.1)'  },
   'Open Source':{ color: '#10b981', bg: 'rgba(16,185,129,0.1)'  },
   Full_Time:    { color: '#8b5cf6', bg: 'rgba(139,92,246,0.1)'  },
@@ -37,9 +37,9 @@ const ExpCard: React.FC<{ exp: any; idx: number }> = ({ exp, idx }) => {
         <motion.span
           animate={isLatest ? {
             boxShadow: [
-              '0 0 8px rgba(0,229,255,0.5)',
-              '0 0 20px rgba(0,229,255,0.9), 0 0 40px rgba(139,92,246,0.4)',
-              '0 0 8px rgba(0,229,255,0.5)',
+              '0 0 8px rgba(34,211,238,0.5)',
+              '0 0 20px rgba(34,211,238,0.9), 0 0 40px rgba(139,92,246,0.4)',
+              '0 0 8px rgba(34,211,238,0.5)',
             ]
           } : {}}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -70,8 +70,8 @@ const ExpCard: React.FC<{ exp: any; idx: number }> = ({ exp, idx }) => {
         transition={{ duration: 0.28 }}
         className="relative rounded-xl overflow-hidden"
         style={{
-          background: 'rgba(8,8,26,0.82)',
-          border: `1px solid ${hovered ? typeCfg.color + '45' : 'rgba(0,229,255,0.1)'}`,
+          background: 'rgba(20,26,41,0.82)',
+          border: `1px solid ${hovered ? typeCfg.color + '45' : 'rgba(34,211,238,0.1)'}`,
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           boxShadow: hovered
@@ -151,7 +151,7 @@ const ExpCard: React.FC<{ exp: any; idx: number }> = ({ exp, idx }) => {
                 className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold"
                 style={{
                   background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(0,229,255,0.2)',
+                  border: '1px solid rgba(34,211,238,0.2)',
                   color: 'var(--text-secondary)',
                 }}
               >
@@ -173,14 +173,14 @@ const ExpCard: React.FC<{ exp: any; idx: number }> = ({ exp, idx }) => {
                 <motion.span
                   animate={{
                     boxShadow: [
-                      '0 0 6px rgba(0,229,255,0.4)',
-                      '0 0 16px rgba(0,229,255,0.8)',
-                      '0 0 6px rgba(0,229,255,0.4)',
+                      '0 0 6px rgba(34,211,238,0.4)',
+                      '0 0 16px rgba(34,211,238,0.8)',
+                      '0 0 6px rgba(34,211,238,0.4)',
                     ]
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                   className="px-2.5 py-1 rounded-full text-[10px] font-mono font-black"
-                  style={{ background: 'rgba(0,229,255,0.15)', color: 'var(--accent-cyan)', border: '1px solid rgba(0,229,255,0.5)' }}
+                  style={{ background: 'rgba(34,211,238,0.15)', color: 'var(--accent-cyan)', border: '1px solid rgba(34,211,238,0.5)' }}
                 >
                   ✦ {exp.highlightBadge}
                 </motion.span>
@@ -268,7 +268,7 @@ export const Experience: React.FC = () => {
                   width: '28px',
                   background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
                   borderRadius: '2px',
-                  boxShadow: '0 0 8px rgba(0,229,255,0.5)',
+                  boxShadow: '0 0 8px rgba(34,211,238,0.5)',
                 }}
               />
               <span className="text-[11px] font-mono tracking-widest uppercase font-semibold" style={{ color: 'var(--accent-cyan)' }}>
@@ -286,12 +286,12 @@ export const Experience: React.FC = () => {
             {/* Mini stats */}
             <div className="mt-8 space-y-3">
               {[
-                { label: 'Internships', value: '2', color: '#00e5ff' },
+                { label: 'Internships', value: '2', color: '#22d3ee' },
                 { label: 'Freelance Projects', value: '1+', color: '#ec4899' },
                 { label: 'Open Source PRs', value: '10+', color: '#10b981' },
               ].map(s => (
                 <div key={s.label} className="flex items-center justify-between rounded-lg px-3 py-2"
-                  style={{ background: 'rgba(8,8,26,0.7)', border: '1px solid rgba(0,229,255,0.08)' }}>
+                  style={{ background: 'rgba(20,26,41,0.7)', border: '1px solid rgba(34,211,238,0.08)' }}>
                   <span className="text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>{s.label}</span>
                   <span className="text-sm font-black font-display" style={{ color: s.color, textShadow: `0 0 15px ${s.color}80` }}>{s.value}</span>
                 </div>
@@ -305,7 +305,7 @@ export const Experience: React.FC = () => {
 
               {/* Background guide line */}
               <div className="absolute left-[7px] top-3 bottom-6 w-[2px] hidden sm:block"
-                style={{ background: 'rgba(0,229,255,0.06)' }} />
+                style={{ background: 'rgba(34,211,238,0.06)' }} />
 
               {/* Scroll-linked cyan gradient line */}
               <motion.div
@@ -313,7 +313,7 @@ export const Experience: React.FC = () => {
                   scaleY,
                   originY: 0,
                   background: 'linear-gradient(180deg, var(--accent-cyan), var(--accent-violet))',
-                  boxShadow: '0 0 8px rgba(0,229,255,0.5)',
+                  boxShadow: '0 0 8px rgba(34,211,238,0.5)',
                 } as any}
                 className="absolute left-[7px] top-3 bottom-6 w-[2px] hidden sm:block will-change-transform"
               />

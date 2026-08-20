@@ -91,7 +91,7 @@ const OrbitBadge: React.FC<{ skill: string; color: string; index: number; visibl
 
 /* ── Category config ──────────────────────────────────────────────── */
 const CAT_CONFIG: Record<string, { icon: React.FC<any>; color: string; glow: string; label: string }> = {
-  backend:        { icon: Server,   color: '#00e5ff', glow: 'rgba(0,229,255,0.14)',  label: 'Backend Architecture' },
+  backend:        { icon: Server,   color: '#22d3ee', glow: 'rgba(34,211,238,0.14)',  label: 'Backend Architecture' },
   databases:      { icon: Database, color: '#8b5cf6', glow: 'rgba(139,92,246,0.14)', label: 'Databases & Storage' },
   'tools-devops': { icon: Wrench,   color: '#10b981', glow: 'rgba(16,185,129,0.14)', label: 'DevOps & Tooling' },
   'frontend-core':{ icon: Code2,    color: '#f59e0b', glow: 'rgba(245,158,11,0.14)', label: 'Core CS & Frontend' },
@@ -120,7 +120,7 @@ export const Skills: React.FC = () => (
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {SKILL_CATEGORIES.map((cat, catIdx) => {
-          const cfg = CAT_CONFIG[cat.id] ?? { icon: Server, color: '#00e5ff', glow: 'rgba(0,229,255,0.1)', label: cat.name };
+          const cfg = CAT_CONFIG[cat.id] ?? { icon: Server, color: '#22d3ee', glow: 'rgba(34,211,238,0.1)', label: cat.name };
           const CatIcon = cfg.icon;
           const avgPct = Math.round(cat.skills.reduce((a, s) => a + s.proficiency, 0) / cat.skills.length);
 
@@ -159,7 +159,7 @@ const SkillCard: React.FC<{
       onHoverEnd={() => setHovered(false)}
       className="relative rounded-2xl p-6 gradient-border overflow-hidden group"
       style={{
-        background: 'rgba(8,8,26,0.8)',
+        background: 'rgba(20,26,41,0.8)',
         border: `1px solid ${hovered ? cfg.color + '40' : 'rgba(255,255,255,0.07)'}`,
         boxShadow: hovered
           ? `0 0 50px ${cfg.glow}, 0 0 100px rgba(0,0,0,0.3), 0 12px 50px rgba(0,0,0,0.6)`

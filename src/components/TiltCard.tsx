@@ -16,7 +16,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   maxTilt = 6,
   scaleOnHover = 1.015,
   onClick,
-  glowColor = 'rgba(0, 229, 255, 0.15)',
+  glowColor = 'rgba(34, 211, 238, 0.15)',
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -95,7 +95,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
           <motion.div
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(350px circle at ${hoverPos.x} ${hoverPos.y}, rgba(0,229,255,0.45), rgba(139,92,246,0.2), transparent 70%)`,
+              background: `radial-gradient(350px circle at ${hoverPos.x} ${hoverPos.y}, rgba(34,211,238,0.45), rgba(139,92,246,0.2), transparent 70%)`,
             }}
             transition={{ opacity: { duration: 0.2 } }}
             className="pointer-events-none absolute inset-0 z-0"
@@ -103,13 +103,13 @@ export const TiltCard: React.FC<TiltCardProps> = ({
         )}
 
         {/* Internal Content Container — glass */}
-        <div className="relative z-10 w-full h-full rounded-sm overflow-hidden flex flex-col justify-between" style={{ background: 'rgba(8,8,26,0.82)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        <div className="relative z-10 w-full h-full rounded-sm overflow-hidden flex flex-col justify-between" style={{ background: 'rgba(20,26,41,0.82)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
           {/* Dynamic Light Sheen / Ambient Glare Overlay */}
           {!isTouchDevice && !reducedMotion && (
             <motion.div
               style={{
                 opacity: isHovered ? 0.08 : 0,
-                background: `radial-gradient(circle 360px at ${hoverPos.x} ${hoverPos.y}, rgba(0,229,255,0.9), transparent 75%)`,
+                background: `radial-gradient(circle 360px at ${hoverPos.x} ${hoverPos.y}, rgba(34,211,238,0.9), transparent 75%)`,
               }}
               transition={{ opacity: { duration: 0.2 } }}
               className="pointer-events-none absolute inset-0 rounded-sm z-30 mix-blend-overlay transition-opacity"

@@ -38,9 +38,9 @@ const GlassInput: React.FC<{
     width: '100%',
     padding: '10px 14px',
     background: focused
-      ? 'rgba(0,229,255,0.04)'
-      : 'rgba(8,8,26,0.7)',
-    border: `1px solid ${error ? '#f43f5e' : focused ? 'var(--accent-cyan)' : 'rgba(0,229,255,0.15)'}`,
+      ? 'rgba(34,211,238,0.04)'
+      : 'rgba(20,26,41,0.7)',
+    border: `1px solid ${error ? '#f43f5e' : focused ? 'var(--accent-cyan)' : 'rgba(34,211,238,0.15)'}`,
     borderRadius: '10px',
     color: 'var(--text-primary)',
     fontFamily: 'var(--font-mono)',
@@ -48,7 +48,7 @@ const GlassInput: React.FC<{
     outline: 'none',
     transition: 'border-color 0.3s, background 0.3s, box-shadow 0.3s',
     boxShadow: focused
-      ? `0 0 0 1px rgba(0,229,255,0.2), 0 0 20px rgba(0,229,255,0.08), inset 0 0 10px rgba(0,229,255,0.03)`
+      ? `0 0 0 1px rgba(34,211,238,0.2), 0 0 20px rgba(34,211,238,0.08), inset 0 0 10px rgba(34,211,238,0.03)`
       : 'none',
     resize: 'none' as const,
   };
@@ -110,7 +110,7 @@ const ContactLink: React.FC<{
   >
     <span
       className="p-2 rounded-lg transition-all duration-300"
-      style={{ background: 'rgba(0,229,255,0.06)', border: '1px solid rgba(0,229,255,0.12)' }}
+      style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
     >
       {React.cloneElement(icon as React.ReactElement, {
         size: 14,
@@ -255,7 +255,7 @@ export const Contact: React.FC = () => {
                   width: '28px',
                   background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
                   borderRadius: '2px',
-                  boxShadow: '0 0 8px rgba(0,229,255,0.5)',
+                  boxShadow: '0 0 8px rgba(34,211,238,0.5)',
                 }}
               />
               <span
@@ -315,7 +315,7 @@ export const Contact: React.FC = () => {
               <div className="flex items-center gap-3">
                 <span
                   className="p-2 rounded-lg"
-                  style={{ background: 'rgba(0,229,255,0.06)', border: '1px solid rgba(0,229,255,0.12)' }}
+                  style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
                 >
                   <Phone size={14} style={{ color: 'var(--text-muted)' }} />
                 </span>
@@ -326,7 +326,7 @@ export const Contact: React.FC = () => {
               <div className="flex items-center gap-3">
                 <span
                   className="p-2 rounded-lg"
-                  style={{ background: 'rgba(0,229,255,0.06)', border: '1px solid rgba(0,229,255,0.12)' }}
+                  style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
                 >
                   <MapPin size={14} style={{ color: 'var(--text-muted)' }} />
                 </span>
@@ -341,7 +341,7 @@ export const Contact: React.FC = () => {
               animate={{
                 boxShadow: [
                   '0 0 15px rgba(16,185,129,0.1)',
-                  '0 0 30px rgba(16,185,129,0.2), 0 0 60px rgba(0,229,255,0.08)',
+                  '0 0 30px rgba(16,185,129,0.2), 0 0 60px rgba(34,211,238,0.08)',
                   '0 0 15px rgba(16,185,129,0.1)',
                 ],
               }}
@@ -367,8 +367,8 @@ export const Contact: React.FC = () => {
               className="rounded-2xl overflow-hidden shadow-2xl"
               style={{
                 background: 'rgba(6,6,18,0.88)',
-                border: '1px solid rgba(0,229,255,0.18)',
-                boxShadow: '0 0 60px rgba(0,229,255,0.08), 0 0 120px rgba(139,92,246,0.05), 0 24px 80px rgba(0,0,0,0.7)',
+                border: '1px solid rgba(34,211,238,0.18)',
+                boxShadow: '0 0 60px rgba(34,211,238,0.08), 0 0 120px rgba(139,92,246,0.05), 0 24px 80px rgba(0,0,0,0.7)',
                 backdropFilter: 'blur(28px)',
                 WebkitBackdropFilter: 'blur(28px)',
               }}
@@ -377,8 +377,8 @@ export const Contact: React.FC = () => {
               <div
                 className="flex items-center justify-between px-4 py-3 border-b"
                 style={{
-                  background: 'rgba(0,229,255,0.04)',
-                  borderColor: 'rgba(0,229,255,0.12)',
+                  background: 'rgba(34,211,238,0.04)',
+                  borderColor: 'rgba(34,211,238,0.12)',
                 }}
               >
                 <div className="flex items-center gap-2">
@@ -396,7 +396,7 @@ export const Contact: React.FC = () => {
               {/* Prompt line */}
               <div
                 className="flex items-center gap-2 px-5 py-2.5 text-[11px] font-mono border-b"
-                style={{ background: 'rgba(2,2,9,0.4)', borderColor: 'rgba(255,255,255,0.04)' }}
+                style={{ background: 'rgba(10,14,23,0.4)', borderColor: 'rgba(255,255,255,0.04)' }}
               >
                 <span style={{ color: 'var(--accent-cyan)' }}>root@thesiya:~$</span>
                 <span className="text-white">initialize_contact_protocol.sh</span>
@@ -526,7 +526,7 @@ export const Contact: React.FC = () => {
               {/* Footer */}
               <div
                 className="flex items-center justify-between px-5 py-2.5 border-t text-[10px] font-mono"
-                style={{ background: 'rgba(0,229,255,0.02)', borderColor: 'rgba(0,229,255,0.08)', color: 'var(--text-muted)' }}
+                style={{ background: 'rgba(34,211,238,0.02)', borderColor: 'rgba(34,211,238,0.08)', color: 'var(--text-muted)' }}
               >
                 <span className="flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" style={{ boxShadow: '0 0 6px #10b981' }} />

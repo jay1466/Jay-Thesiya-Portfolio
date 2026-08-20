@@ -15,7 +15,7 @@ const ROLES = [
 
 /* ── Floating tech orb icons ─────────────────────────────────── */
 const ORB_ICONS = [
-  { Icon: Server,   color: '#00e5ff', angle: 0,   label: 'Spring Boot'   },
+  { Icon: Server,   color: '#22d3ee', angle: 0,   label: 'Spring Boot'   },
   { Icon: Database, color: '#8b5cf6', angle: 72,  label: 'PostgreSQL'   },
   { Icon: Shield,   color: '#10b981', angle: 144, label: 'Spring Security' },
   { Icon: Code2,    color: '#f59e0b', angle: 216, label: 'Java 21'      },
@@ -135,7 +135,7 @@ export const Hero: React.FC = () => {
 
       {/* ── Ambient Orbs (larger, more vibrant) ── */}
       <motion.div
-        style={{ x: mouseOffset.x * -20, y: mouseOffset.y * -15, background: 'radial-gradient(circle, rgba(0,229,255,0.18) 0%, rgba(0,229,255,0.06) 50%, transparent 70%)' }}
+        style={{ x: mouseOffset.x * -20, y: mouseOffset.y * -15, background: 'radial-gradient(circle, rgba(34,211,238,0.18) 0%, rgba(34,211,238,0.06) 50%, transparent 70%)' }}
         className="hero-orb w-[600px] h-[600px] -top-32 -left-48 will-change-transform"
       />
       <motion.div
@@ -170,16 +170,16 @@ export const Hero: React.FC = () => {
             <div
               className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full w-fit relative overflow-hidden"
               style={{
-                background: 'rgba(0,229,255,0.06)',
-                border: '1px solid rgba(0,229,255,0.28)',
-                boxShadow: '0 0 20px rgba(0,229,255,0.1), inset 0 0 20px rgba(0,229,255,0.03)',
+                background: 'rgba(34,211,238,0.06)',
+                border: '1px solid rgba(34,211,238,0.28)',
+                boxShadow: '0 0 20px rgba(34,211,238,0.1), inset 0 0 20px rgba(34,211,238,0.03)',
               }}
             >
               {/* Animated shimmer sweep */}
               <span
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.08) 50%, transparent 100%)',
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.08) 50%, transparent 100%)',
                   backgroundSize: '200% 100%',
                   animation: 'shimmer 3s ease-in-out infinite',
                 }}
@@ -244,7 +244,7 @@ export const Hero: React.FC = () => {
           {/* 5. Tags */}
           <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-9">
             {[
-              { label: 'Surat, Gujarat, India', color: 'rgba(0,229,255,0.15)', border: 'rgba(0,229,255,0.25)', dot: '#00e5ff' },
+              { label: 'Surat, Gujarat, India', color: 'rgba(34,211,238,0.15)', border: 'rgba(34,211,238,0.25)', dot: '#22d3ee' },
               { label: 'Spring Boot & Microservices', color: 'rgba(139,92,246,0.12)', border: 'rgba(139,92,246,0.3)', dot: '#8b5cf6' },
               { label: 'DSA & Problem Solving', color: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.25)', dot: '#10b981' },
             ].map(tag => (
@@ -320,92 +320,18 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 flex flex-col items-center gap-6 will-change-transform"
         >
-          {/* ── 3D Tech Orb ── */}
-          <div className="relative w-64 h-64 flex items-center justify-center">
-            {/* Outer atmosphere */}
-            <motion.div
-              animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(0,229,255,0.12) 0%, rgba(139,92,246,0.08) 50%, transparent 70%)',
-                boxShadow: '0 0 80px rgba(0,229,255,0.18), 0 0 140px rgba(139,92,246,0.1)',
-              }}
-            />
-            {/* Ring 1 — slow spin */}
-            <div
-              className="absolute w-52 h-52 rounded-full border border-[rgba(0,229,255,0.12)]"
-              style={{ animation: 'slowSpin 25s linear infinite' }}
-            />
-            {/* Ring 2 — counter spin */}
-            <div
-              className="absolute w-40 h-40 rounded-full border border-[rgba(139,92,246,0.15)]"
-              style={{ animation: 'counterSpin 18s linear infinite' }}
-            />
-
-            {/* center core */}
-            <motion.div
-              animate={{ boxShadow: [
-                '0 0 30px rgba(0,229,255,0.3), inset 0 0 30px rgba(139,92,246,0.1)',
-                '0 0 60px rgba(0,229,255,0.5), inset 0 0 50px rgba(139,92,246,0.2)',
-                '0 0 30px rgba(0,229,255,0.3), inset 0 0 30px rgba(139,92,246,0.1)',
-              ] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10 w-28 h-28 rounded-full flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, rgba(0,229,255,0.25), rgba(139,92,246,0.3))',
-                border: '1px solid rgba(0,229,255,0.4)',
-                backdropFilter: 'blur(16px)',
-              }}
-            >
-              <span className="text-3xl font-black gradient-text-animated font-display">JT</span>
-            </motion.div>
-
-            {/* orbiting icons */}
-            {ORB_ICONS.map(({ Icon, color, angle, label }, i) => {
-              const rad = ((angle + orbAngle) * Math.PI) / 180;
-              const r = 105;
-              const x = Math.cos(rad) * r;
-              const y = Math.sin(rad) * r;
-              return (
-                  <motion.div
-                    key={label}
-                    title={label}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.7 + i * 0.1 }}
-                    className="absolute"
-                    style={{ transform: `translate(${x}px, ${y}px)` }}
-                  >
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center cursor-default"
-                    style={{
-                      background: `rgba(${hexToRgb(color)}, 0.18)`,
-                      border: `1px solid rgba(${hexToRgb(color)}, 0.5)`,
-                      boxShadow: `0 0 16px rgba(${hexToRgb(color)}, 0.4), inset 0 0 8px rgba(${hexToRgb(color)}, 0.1)`,
-                      backdropFilter: 'blur(8px)',
-                    }}
-                  >
-                    <Icon size={17} color={color} />
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </div>
-
           {/* ── Glass Terminal ── */}
           <div className="w-full rounded-2xl overflow-hidden shadow-2xl"
             style={{
               background: 'rgba(6,6,18,0.85)',
-              border: '1px solid rgba(0,229,255,0.18)',
-              boxShadow: '0 0 60px rgba(0,229,255,0.1), 0 0 120px rgba(139,92,246,0.06), 0 24px 80px rgba(0,0,0,0.7)',
+              border: '1px solid rgba(34,211,238,0.18)',
+              boxShadow: '0 0 60px rgba(34,211,238,0.1), 0 0 120px rgba(139,92,246,0.06), 0 24px 80px rgba(0,0,0,0.7)',
               backdropFilter: 'blur(28px)',
             }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(0,229,255,0.12)]"
-              style={{ background: 'rgba(0,229,255,0.05)' }}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(34,211,238,0.12)]"
+              style={{ background: 'rgba(34,211,238,0.05)' }}
             >
               <div className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-full bg-red-500/70" />
@@ -438,7 +364,7 @@ export const Hero: React.FC = () => {
                       : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
                   }`}
                   style={activeTab === tab ? {
-                    background: 'rgba(0,229,255,0.07)',
+                    background: 'rgba(34,211,238,0.07)',
                     boxShadow: 'inset 0 -2px 0 var(--accent-cyan)',
                   } : {}}
                 >
@@ -448,7 +374,7 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Body */}
-            <div className="p-5 text-xs font-mono min-h-[240px] space-y-2.5" style={{ background: 'rgba(2,2,9,0.6)' }}>
+            <div className="p-5 text-xs font-mono min-h-[240px] space-y-2.5" style={{ background: 'rgba(10,14,23,0.6)' }}>
               <div className="flex items-center gap-2 pb-2.5 border-b border-[rgba(255,255,255,0.05)] text-[var(--text-muted)]">
                 <span className="text-[var(--accent-cyan)]">root@thesiya:~$</span>
                 <span className="text-white">
@@ -464,7 +390,7 @@ export const Hero: React.FC = () => {
                   <motion.div key="metrics" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }} className="space-y-2">
                     {[
                       { status: 'OK',   color: '#10b981', key: 'backend:',  val: commandOutput.backend,  dot: true  },
-                      { status: 'OK',   color: '#00e5ff', key: 'cloud:',    val: 'active',               dot: true  },
+                      { status: 'OK',   color: '#22d3ee', key: 'cloud:',    val: 'active',               dot: true  },
                       { status: 'INFO', color: '#8b5cf6', key: 'api:',      val: commandOutput.api,      dot: false },
                       { status: 'OK',   color: '#10b981', key: 'uptime:',   val: commandOutput.uptime,   dot: false },
                     ].map(r => (
@@ -512,8 +438,8 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-4 py-2.5 border-t border-[rgba(0,229,255,0.1)] text-[10px] font-mono text-[var(--text-muted)]"
-              style={{ background: 'rgba(0,229,255,0.03)' }}
+            <div className="flex items-center justify-between px-4 py-2.5 border-t border-[rgba(34,211,238,0.1)] text-[10px] font-mono text-[var(--text-muted)]"
+              style={{ background: 'rgba(34,211,238,0.03)' }}
             >
               <span className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" style={{ boxShadow: '0 0 8px #10b981' }} />

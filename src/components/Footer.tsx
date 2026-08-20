@@ -6,7 +6,7 @@ import { PERSONAL_INFO } from '../data/portfolioData';
 const SOCIAL = [
   { label: 'GitHub',   href: PERSONAL_INFO.github,            Icon: Github,   color: '#f0f4ff', glow: 'rgba(240,244,255,0.2)' },
   { label: 'LinkedIn', href: PERSONAL_INFO.linkedin,          Icon: Linkedin, color: '#0077b5', glow: 'rgba(0,119,181,0.3)'   },
-  { label: 'Email',    href: `mailto:${PERSONAL_INFO.email}`, Icon: Mail,     color: '#00e5ff', glow: 'rgba(0,229,255,0.25)'  },
+  { label: 'Email',    href: `mailto:${PERSONAL_INFO.email}`, Icon: Mail,     color: '#22d3ee', glow: 'rgba(34,211,238,0.25)'  },
   { label: 'LeetCode', href: PERSONAL_INFO.leetcode,          Icon: Code2,    color: '#f59e0b', glow: 'rgba(245,158,11,0.25)' },
 ];
 
@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
         className="absolute top-0 left-0 right-0 h-px"
         style={{
           background: 'linear-gradient(90deg, transparent 0%, var(--accent-cyan) 25%, var(--accent-violet) 50%, var(--accent-pink) 75%, transparent 100%)',
-          boxShadow: '0 0 20px rgba(0,229,255,0.3), 0 0 40px rgba(139,92,246,0.15)',
+          boxShadow: '0 0 20px rgba(34,211,238,0.3), 0 0 40px rgba(139,92,246,0.15)',
         }}
       />
 
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-60 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse, rgba(0,229,255,0.06) 0%, rgba(139,92,246,0.04) 40%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(34,211,238,0.06) 0%, rgba(139,92,246,0.04) 40%, transparent 70%)',
           filter: 'blur(30px)',
         }}
       />
@@ -64,9 +64,9 @@ export const Footer: React.FC = () => {
               className="absolute inset-x-0 -inset-y-4 rounded-full pointer-events-none"
               animate={{
                 boxShadow: [
-                  '0 0 40px rgba(0,229,255,0.08)',
-                  '0 0 80px rgba(0,229,255,0.16), 0 0 120px rgba(139,92,246,0.08)',
-                  '0 0 40px rgba(0,229,255,0.08)',
+                  '0 0 40px rgba(34,211,238,0.08)',
+                  '0 0 80px rgba(34,211,238,0.16), 0 0 120px rgba(139,92,246,0.08)',
+                  '0 0 40px rgba(34,211,238,0.08)',
                 ],
               }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -128,7 +128,7 @@ export const Footer: React.FC = () => {
         </motion.div>
 
         {/* Divider */}
-        <div className="h-px mb-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,229,255,0.15), rgba(139,92,246,0.15), transparent)' }} />
+        <div className="h-px mb-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(34,211,238,0.15), rgba(139,92,246,0.15), transparent)' }} />
 
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-[var(--text-muted)]">
@@ -162,9 +162,9 @@ export const Footer: React.FC = () => {
               title="Back to top"
               aria-label="Back to top"
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,229,255,0.4)';
-                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,229,255,0.2), inset 0 0 8px rgba(0,229,255,0.05)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(0,229,255,0.06)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.4)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,211,238,0.2), inset 0 0 8px rgba(34,211,238,0.05)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(34,211,238,0.06)';
               }}
               onMouseLeave={e => {
                 (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
