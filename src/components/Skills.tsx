@@ -223,15 +223,9 @@ const SkillCard: React.FC<{
             onMouseEnter={() => setHoveredSkillIdx(sIdx)}
             onMouseLeave={() => setHoveredSkillIdx(null)}
           >
-            {/* Arc ring with orbit badges on hover */}
+            {/* Arc ring */}
             <div className="relative flex items-center justify-center" style={{ width: 42, height: 42 }}>
               <ArcRing pct={skill.proficiency} color={cfg.color} size={42} stroke={3.5} />
-              {/* Mini orbit badges */}
-              {hoveredSkillIdx === sIdx && skill.name && (
-                <>
-                  <OrbitBadge skill={skill.name.split(' ')[0]} color={cfg.color} index={0} visible={true} />
-                </>
-              )}
             </div>
 
             {/* Name & bar */}
