@@ -16,12 +16,13 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   maxTilt = 6,
   scaleOnHover = 1.015,
   onClick,
-  glowColor = 'rgba(99, 102, 241, 0.18)',
+  glowColor = 'rgba(0, 229, 255, 0.15)',
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [hoverPos, setHoverPos] = useState({ x: '50%', y: '50%' });
 
   // Motion values for smooth 3D tilt
   const mouseX = useMotionValue(0.5);
@@ -48,6 +49,10 @@ export const TiltCard: React.FC<TiltCardProps> = ({
     const y = (e.clientY - rect.top) / rect.height;
     mouseX.set(x);
     mouseY.set(y);
+    setHoverPos({
+      x: `${((e.clientX - rect.left) / rect.width) * 100}%`,
+      y: `${((e.clientY - rect.top) / rect.height) * 100}%`,
+    });
   };
 
   const handleMouseEnter = () => {
@@ -85,26 +90,26 @@ export const TiltCard: React.FC<TiltCardProps> = ({
         transition={{ duration: 0.25 }}
         className="w-full h-full relative rounded-sm overflow-hidden p-[1px]"
       >
-        {/* Interactive Border Tracer Highlight */}
+        {/* Interactive Border Tracer Highlight — cyan-violet */}
         {!isTouchDevice && !reducedMotion && (
           <motion.div
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(350px circle at ${glareX.get()} ${glareY.get()}, rgba(129, 140, 248, 0.6), rgba(99, 102, 241, 0.2), transparent 70%)`,
+              background: `radial-gradient(350px circle at ${hoverPos.x} ${hoverPos.y}, rgba(0,229,255,0.45), rgba(139,92,246,0.2), transparent 70%)`,
             }}
             transition={{ opacity: { duration: 0.2 } }}
             className="pointer-events-none absolute inset-0 z-0"
           />
         )}
 
-        {/* Internal Content Container */}
-        <div className="relative z-10 w-full h-full bg-[#0a0a0e] rounded-sm overflow-hidden flex flex-col justify-between">
+        {/* Internal Content Container — glass */}
+        <div className="relative z-10 w-full h-full rounded-sm overflow-hidden flex flex-col justify-between" style={{ background: 'rgba(8,8,26,0.82)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
           {/* Dynamic Light Sheen / Ambient Glare Overlay */}
           {!isTouchDevice && !reducedMotion && (
             <motion.div
               style={{
-                opacity: isHovered ? 0.12 : 0,
-                background: `radial-gradient(circle 360px at ${glareX.get()} ${glareY.get()}, rgba(255, 255, 255, 0.9), transparent 75%)`,
+                opacity: isHovered ? 0.08 : 0,
+                background: `radial-gradient(circle 360px at ${hoverPos.x} ${hoverPos.y}, rgba(0,229,255,0.9), transparent 75%)`,
               }}
               transition={{ opacity: { duration: 0.2 } }}
               className="pointer-events-none absolute inset-0 rounded-sm z-30 mix-blend-overlay transition-opacity"
