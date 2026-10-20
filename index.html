@@ -1,25 +1,36 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jay Thesiya — Java Backend Developer</title>
-    <meta name="description" content="Portfolio of Jay Thesiya, Java Backend Developer & Software Engineer specializing in Spring Boot, Microservices, Scalable APIs, and Cloud Systems." />
-    <meta property="og:title" content="Jay Thesiya — Java Backend Developer" />
-    <meta property="og:description" content="Turning ideas into intelligent solutions. Scalable backend architectures, Spring Boot, and robust software engineering." />
+    <title>Jay Thesiya — Java Developer</title>
+    <meta name="description" content="Portfolio of Jay Thesiya, Java developer specialising in Spring Boot, REST APIs, microservices and full stack web applications. Currently a Java Full Stack Developer Intern at Emgage." />
+    <meta property="og:title" content="Jay Thesiya — Java Developer" />
+    <meta property="og:description" content="Java developer building scalable backends with Spring Boot, REST APIs and React." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/favicon.svg" />
-    <meta name="theme-color" content="#020209" />
+    <meta name="theme-color" content="#f3f2ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Apply the saved (or system) theme before first paint to avoid a flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var theme = saved === 'light' || saved === 'dark'
+            ? saved
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-[#050507] text-[#e2e2e8] antialiased selection:bg-white selection:text-black min-h-screen overflow-x-hidden font-sans">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

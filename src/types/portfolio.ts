@@ -29,6 +29,7 @@ export interface ExperienceItem {
   description: string[];
   technologies: string[];
   highlightBadge?: string;
+  current?: boolean;
 }
 
 export interface EducationItem {

@@ -156,6 +156,20 @@ export const STATS: StatItem[] = [
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
+    id: 'exp-0',
+    role: 'Java Full Stack Developer Intern',
+    company: 'Emgage',
+    period: 'Sep 15, 2026 – Present',
+    type: 'Internship',
+    current: true,
+    description: [
+      'Building and maintaining full stack features with Java and Spring Boot on the backend and React on the frontend.',
+      'Designing and integrating REST APIs, working with relational databases and the existing service layer.',
+      'Collaborating with the engineering team through code reviews, Agile ceremonies and Git-based workflows.',
+    ],
+    technologies: ['Java', 'Spring Boot', 'REST APIs', 'React', 'SQL', 'Git'],
+  },
+  {
     id: 'exp-1',
     role: 'Java Developer Intern',
     company: 'Hevin Technoweb',
@@ -163,7 +177,6 @@ export const EXPERIENCES: ExperienceItem[] = [
     location: 'Surat, India',
     period: 'May 2026 – Jun 2026',
     type: 'Internship',
-    highlightBadge: 'Latest',
     description: [
       'Engineered core backend services utilizing Java and Spring Boot framework with focus on scalable REST APIs.',
       'Optimized database queries and indexing strategies in MongoDB & MySQL, reducing data fetch latency.',

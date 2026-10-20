@@ -1,274 +1,161 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, FileText, Github, Linkedin } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { useLocalTime } from '../hooks/useLocalTime';
+import { ThemeSwitch } from './ThemeSwitch';
 
-interface NavItem { name: string; href: string; id: string; }
-
-const NAV_ITEMS: NavItem[] = [
-  { name: 'Home',         href: '#home',          id: 'home'          },
-  { name: 'About',        href: '#about',         id: 'about'         },
-  { name: 'Experience',   href: '#experience',    id: 'experience'    },
-  { name: 'Academics',    href: '#academics',     id: 'academics'     },
-  { name: 'Projects',     href: '#projects',      id: 'projects'      },
-  { name: 'Skills',       href: '#skills',        id: 'skills'        },
-  { name: 'Certificates', href: '#certifications',id: 'certifications'},
-  { name: 'Resume',       href: '#resume',        id: 'resume'        },
-  { name: 'Profiles',     href: '#profiles',      id: 'profiles'      },
-  { name: 'Contact',      href: '#contact',       id: 'contact'       },
+export const NAV_ITEMS = [
+  { name: 'About',        id: 'about' },
+  { name: 'Experience',   id: 'experience' },
+  { name: 'Projects',     id: 'projects' },
+  { name: 'Skills',       id: 'skills' },
+  { name: 'Education',    id: 'academics' },
+  { name: 'Certificates', id: 'certifications' },
+  { name: 'Contact',      id: 'contact' },
 ];
 
+export const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const lenis = (window as any).__lenis;
+  if (lenis) lenis.scrollTo(el, { offset: id === 'home' ? 0 : -56 });
+  else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
 export const Navbar: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('home');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const time = useLocalTime();
+  const [active, setActive] = useState('');
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-      const sections = NAV_ITEMS.map(item => document.getElementById(item.id));
-      let current = NAV_ITEMS[0].id;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = sections[i];
-        if (el && el.getBoundingClientRect().top <= 280) {
-          current = NAV_ITEMS[i].id;
-          break;
-        }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+      let current = '';
+      for (const item of NAV_ITEMS) {
+        const el = document.getElementById(item.id);
+        if (el && el.getBoundingClientRect().top <= 160) current = item.id;
       }
-      setActiveSection(current);
+      setActive(current);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  useEffect(() => {
+    const lenis = (window as any).__lenis;
+    if (open) { lenis?.stop(); document.body.style.overflow = 'hidden'; }
+    else { lenis?.start(); document.body.style.overflow = ''; }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  const go = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-    const el = document.getElementById(href.replace('#', ''));
-    if (el) {
-      if ((window as any).__lenis) {
-        (window as any).__lenis.scrollTo(el, { offset: -72 });
-      } else {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-    setMobileMenuOpen(false);
+    setOpen(false);
+    requestAnimationFrame(() => scrollToId(id));
   };
 
   return (
-    <motion.header
-      id="main-navigation"
-      initial={{ opacity: 0, y: -24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        scrolled ? 'py-3' : 'py-5'
-      }`}
-      style={scrolled ? {
-        background: 'rgba(10,14,23,0.72)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        borderBottom: '1px solid rgba(34,211,238,0.12)',
-        boxShadow: '0 4px 60px rgba(0,0,0,0.6), 0 0 1px rgba(34,211,238,0.12), 0 1px 0 rgba(139,92,246,0.06)',
-      } : {
-        background: 'transparent',
-      }}
-    >
-      {/* Luminous bottom border line (only when scrolled) */}
-      {scrolled && (
-        <div
-          className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
-          style={{
-            background: 'linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.4) 30%, rgba(139,92,246,0.4) 70%, transparent 100%)',
-          }}
-        />
-      )}
-
-      {/* Skip link */}
-      <a href="#about" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:font-mono focus:text-xs">
-        Skip to main content
-      </a>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-
-        {/* Brand — with animated glow pulse */}
-        <a
-          href="#home"
-          onClick={e => handleNavClick(e, '#home')}
-          id="nav-brand-logo"
-          className="group flex items-center gap-2.5 transition-all duration-300 hover:opacity-90"
-        >
-          <div className="relative">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" style={{ boxShadow: '0 0 10px #10b981, 0 0 20px rgba(16,185,129,0.4)' }} />
-            </span>
-          </div>
-          <motion.span
-            className="font-bold text-white text-sm tracking-wide font-display"
-            whileHover={{ scale: 1.02 }}
-          >
-            Jay{' '}
-            <motion.span
-              className="gradient-text-animated"
-              animate={{}}
-            >
-              Thesiya
-            </motion.span>
-          </motion.span>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+          scrolled && !open ? 'bg-[var(--paper)]/90 backdrop-blur-sm border-b border-[var(--rule)]' : 'border-b border-transparent'
+        }`}
+      >
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 btn-ink">
+          Skip to content
         </a>
+        <div className="wrap h-14 grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center gap-6">
+          <a
+            href="#home"
+            onClick={e => go(e, 'home')}
+            className="font-semibold tracking-tight text-[15px] whitespace-nowrap"
+          >
+            Jay Thesiya<span className="text-[var(--accent)]">.</span>
+          </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
-          {NAV_ITEMS.map(item => {
-            const isActive = activeSection === item.id;
-            return (
-              <motion.a
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-5 xl:gap-7">
+            {NAV_ITEMS.map(item => (
+              <a
                 key={item.id}
-                id={`nav-link-${item.id}`}
-                href={item.href}
-                onClick={e => handleNavClick(e, item.href)}
-                whileHover={{ y: -1 }}
-                className={`relative px-3 py-1.5 text-[11px] font-mono tracking-wider cursor-pointer transition-all rounded-md ${
-                  isActive
-                    ? 'text-white'
-                    : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+                href={`#${item.id}`}
+                onClick={e => go(e, item.id)}
+                aria-current={active === item.id ? 'true' : undefined}
+                className={`label !text-[0.7rem] transition-colors flex items-center gap-1.5 ${
+                  active === item.id ? '!text-[var(--ink)]' : 'hover:!text-[var(--ink)]'
                 }`}
-                style={isActive ? { background: 'rgba(34,211,238,0.06)' } : {}}
               >
+                <span
+                  className={`h-1.5 w-1.5 bg-[var(--accent)] transition-transform duration-300 ${
+                    active === item.id ? 'scale-100' : 'scale-0'
+                  }`}
+                />
                 {item.name}
-                {isActive && (
-                  <motion.span
-                    layoutId="activeNavIndicator"
-                    className="absolute bottom-0.5 left-2.5 right-2.5 h-[2px] rounded-full"
-                    style={{
-                      background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
-                      boxShadow: '0 0 8px rgba(34,211,238,0.6)',
-                    }}
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </motion.a>
-            );
-          })}
-        </nav>
+              </a>
+            ))}
+          </nav>
 
-        {/* Desktop actions */}
-        <div className="hidden lg:flex items-center gap-2">
-          {[
-            { href: PERSONAL_INFO.github, icon: <Github size={14} />, label: 'GitHub' },
-            { href: PERSONAL_INFO.linkedin, icon: <Linkedin size={14} />, label: 'LinkedIn' },
-          ].map(({ href, icon, label }) => (
-            <motion.a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              title={label}
-              aria-label={label}
-              className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-cyan)] rounded-lg transition-all"
-              style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.4)';
-                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,211,238,0.2), inset 0 0 8px rgba(34,211,238,0.04)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(34,211,238,0.06)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)';
-                (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)';
-              }}
+          <div className="flex items-center justify-end gap-5">
+            <span className="label hidden md:inline whitespace-nowrap">Surat {time} IST</span>
+            <ThemeSwitch />
+            <button
+              onClick={() => setOpen(o => !o)}
+              className="lg:hidden label !text-[var(--ink)] cursor-pointer w-10 text-right"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
             >
-              {icon}
-            </motion.a>
-          ))}
-
-          <motion.a
-            href="#resume"
-            onClick={e => handleNavClick(e, '#resume')}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.96 }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-mono font-bold tracking-wider text-white btn-primary ml-1"
-          >
-            <span className="relative z-10 flex items-center gap-1.5">
-              <FileText size={11} />
-              Resume
-            </span>
-          </motion.a>
+              {open ? 'Close' : 'Menu'}
+            </button>
+          </div>
         </div>
+      </header>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
-          style={{
-            border: '1px solid rgba(34,211,238,0.18)',
-            background: 'rgba(34,211,238,0.05)',
-            boxShadow: mobileMenuOpen ? '0 0 16px rgba(34,211,238,0.2)' : 'none',
-          }}
-          aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-        >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.28 }}
-            className="lg:hidden overflow-hidden shadow-2xl"
-            style={{
-              background: 'rgba(3,3,14,0.96)',
-              backdropFilter: 'blur(28px) saturate(180%)',
-              borderBottom: '1px solid rgba(34,211,238,0.14)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.7)',
-            }}
+            id="mobile-menu"
+            initial={{ clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ clipPath: 'inset(0 0 0% 0)' }}
+            exit={{ clipPath: 'inset(0 0 100% 0)' }}
+            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-30 bg-[var(--paper)] pt-20 pb-8 flex flex-col lg:hidden"
           >
-            <div className="max-w-7xl mx-auto px-4 py-4">
-              <div className="grid grid-cols-2 gap-2">
-                {NAV_ITEMS.map(item => (
-                  <a
+            <nav aria-label="Mobile" className="wrap flex-1 flex flex-col justify-center">
+              <ul>
+                {NAV_ITEMS.map((item, i) => (
+                  <motion.li
                     key={item.id}
-                    href={item.href}
-                    onClick={e => handleNavClick(e, item.href)}
-                    className={`px-3 py-2.5 text-xs font-mono rounded-lg border transition-all ${
-                      activeSection === item.id
-                        ? 'text-[var(--accent-cyan)] font-bold'
-                        : 'text-[var(--text-muted)] hover:text-white'
-                    }`}
-                    style={activeSection === item.id
-                      ? {
-                          background: 'rgba(34,211,238,0.09)',
-                          borderColor: 'rgba(34,211,238,0.35)',
-                          boxShadow: '0 0 12px rgba(34,211,238,0.12)',
-                        }
-                      : { background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.06)' }
-                    }
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="rule"
                   >
-                    {item.name}
-                  </a>
+                    <a
+                      href={`#${item.id}`}
+                      onClick={e => go(e, item.id)}
+                      className="flex items-baseline gap-4 py-3"
+                    >
+                      <span className="label w-6">0{i + 1}</span>
+                      <span className={`display text-[clamp(2rem,9vw,3.5rem)] ${active === item.id ? 'text-[var(--accent)]' : ''}`}>
+                        {item.name}
+                      </span>
+                    </a>
+                  </motion.li>
                 ))}
-              </div>
-              <div className="pt-4 mt-2 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between">
-                <span className="text-[10px] font-mono text-[var(--text-muted)]">Jay Thesiya Portfolio</span>
-                <div className="flex items-center gap-2">
-                  <a href={PERSONAL_INFO.github} target="_blank" rel="noreferrer"
-                    className="p-2 border border-[rgba(255,255,255,0.08)] text-[var(--text-muted)] hover:text-[var(--accent-cyan)] rounded-lg transition-all"
-                  ><Github size={14} /></a>
-                  <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer"
-                    className="p-2 border border-[rgba(255,255,255,0.08)] text-[var(--text-muted)] hover:text-[var(--accent-cyan)] rounded-lg transition-all"
-                  ><Linkedin size={14} /></a>
-                </div>
-              </div>
+              </ul>
+            </nav>
+            <div className="wrap flex items-center justify-between label">
+              <span>Surat {time} IST</span>
+              <a href={PERSONAL_INFO.resumeUrl} target="_blank" rel="noreferrer" className="!text-[var(--ink)] u-link">
+                Résumé ↗
+              </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 };

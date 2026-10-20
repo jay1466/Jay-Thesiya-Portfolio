@@ -1,150 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useState } from 'react';
 import emailjs from 'emailjs-com';
+import { CODING_PROFILES, PERSONAL_INFO, SOCIAL_PROFILES, SUPPORT_PROFILES } from '../data/portfolioData';
 import {
-  Send, CheckCircle2, AlertCircle, Github, Linkedin,
-  Mail, Phone, MapPin, Copy, Check, Terminal, Sparkles, ArrowUpRight,
-} from 'lucide-react';
-import { PERSONAL_INFO } from '../data/portfolioData';
-import {
-  getDeviceType,
   getBrowserName,
-  getUserLocation,
-  getSubmissionDateTime,
-  getTimezone,
+  getDeviceType,
   getLanguage,
   getReferrer,
-  getSourceUrl,
   getScreenResolution,
+  getSourceUrl,
+  getSubmissionDateTime,
+  getTimezone,
+  getUserLocation,
 } from '../utils/contactHelpers';
-import { MagneticButton } from './MagneticButton';
-import { SplitLeft, SplitRight } from './SplitSection';
+import { Reveal } from './Reveal';
 
-/* ── Styled input ───────────────────────────────────────────────── */
-const GlassInput: React.FC<{
+const PROFILE_LINKS = [
+  ...CODING_PROFILES.map(p => ({ id: p.id, name: p.name, url: p.url })),
+  ...SOCIAL_PROFILES.filter(p => ['linkedin', 'whatsapp', 'instagram'].includes(p.id))
+    .map(p => ({ id: p.id, name: p.name, url: p.url })),
+  ...SUPPORT_PROFILES.map(p => ({ id: p.id, name: p.name, url: p.url })),
+];
+
+const Field: React.FC<{
   id: string;
   label: string;
   required?: boolean;
-  type?: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
   error?: string;
-  textarea?: boolean;
-  rows?: number;
-}> = ({ id, label, required, type = 'text', value, onChange, placeholder, error, textarea, rows = 4 }) => {
-  const [focused, setFocused] = useState(false);
-  const baseStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '10px 14px',
-    background: focused
-      ? 'rgba(34,211,238,0.04)'
-      : 'rgba(20,26,41,0.7)',
-    border: `1px solid ${error ? '#f43f5e' : focused ? 'var(--accent-cyan)' : 'rgba(34,211,238,0.15)'}`,
-    borderRadius: '10px',
-    color: 'var(--text-primary)',
-    fontFamily: 'var(--font-mono)',
-    fontSize: '12px',
-    outline: 'none',
-    transition: 'border-color 0.3s, background 0.3s, box-shadow 0.3s',
-    boxShadow: focused
-      ? `0 0 0 1px rgba(34,211,238,0.2), 0 0 20px rgba(34,211,238,0.08), inset 0 0 10px rgba(34,211,238,0.03)`
-      : 'none',
-    resize: 'none' as const,
-  };
-
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block text-[11px] font-mono uppercase tracking-widest mb-2"
-        style={{ color: focused ? 'var(--accent-cyan)' : 'var(--text-muted)', transition: 'color 0.3s' }}
-      >
-        {label}
-        {required && <span style={{ color: 'var(--accent-cyan)' }}> *</span>}
-      </label>
-      {textarea ? (
-        <textarea
-          id={id}
-          rows={rows}
-          value={value}
-          onChange={e => onChange(e.target.value)}
-          placeholder={placeholder}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          style={baseStyle}
-        />
-      ) : (
-        <input
-          id={id}
-          type={type}
-          value={value}
-          onChange={e => onChange(e.target.value)}
-          placeholder={placeholder}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          style={baseStyle}
-        />
-      )}
-      {error && (
-        <p className="text-[11px] mt-1.5 flex items-center gap-1" style={{ color: '#f43f5e' }}>
-          <AlertCircle size={11} /> {error}
-        </p>
-      )}
-    </div>
-  );
-};
-
-/* ── Contact link row ───────────────────────────────────────────── */
-const ContactLink: React.FC<{
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-  color?: string;
-  external?: boolean;
-  action?: React.ReactNode;
-}> = ({ href, icon, label, color = 'var(--accent-cyan)', external, action }) => (
-  <motion.div
-    whileHover={{ x: 4 }}
-    className="flex items-center gap-3 group"
-  >
-    <span
-      className="p-2 rounded-lg transition-all duration-300"
-      style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
-    >
-      {React.cloneElement(icon as React.ReactElement, {
-        size: 14,
-        style: { color },
-      })}
-    </span>
-    <a
-      href={href}
-      target={external ? '_blank' : undefined}
-      rel={external ? 'noreferrer' : undefined}
-      className="text-xs font-mono transition-colors"
-      style={{ color: 'var(--text-secondary)' }}
-      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = color}
-      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'}
-    >
-      {label}
-    </a>
-    {action}
-    {external && (
-      <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-60 transition-opacity" style={{ color }} />
-    )}
-  </motion.div>
+  children: React.ReactNode;
+}> = ({ id, label, required, error, children }) => (
+  <div>
+    <label htmlFor={id} className="label block">
+      {label}{required && <span className="text-[var(--accent-ink)]"> *</span>}
+    </label>
+    {children}
+    {error && <p id={`${id}-error`} className="mt-2 text-sm text-[var(--accent-ink)]">{error}</p>}
+  </div>
 );
 
-/* ── Contact Section ────────────────────────────────────────────── */
 export const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    honeypot: '',
-  });
-
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -154,18 +48,21 @@ export const Contact: React.FC = () => {
     emailjs.init('AfP6Qdzg7VDFpN-8h');
   }, []);
 
+  const set = (key: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setFormData(prev => ({ ...prev, [key]: e.target.value }));
+
   const validate = () => {
     const errors: { [key: string]: string } = {};
-    if (!formData.name.trim()) errors.name = 'Client identification / name is required.';
+    if (!formData.name.trim()) errors.name = 'Please enter your name.';
     if (!formData.email.trim()) {
-      errors.email = 'Valid sender email address is required.';
+      errors.email = 'Please enter your email address.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Malformed email format.';
+      errors.email = 'Please enter a valid email address.';
     }
     if (!formData.message.trim()) {
-      errors.message = 'Payload body / message is required.';
+      errors.message = 'Please enter a message.';
     } else if (formData.message.trim().length < 8) {
-      errors.message = 'Message payload should contain at least 8 characters.';
+      errors.message = 'Message should be at least 8 characters.';
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -173,22 +70,25 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (formData.honeypot.trim() !== '') {
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '', honeypot: '' });
       return;
     }
-    const lastSubmission = localStorage.getItem('lastSubmissionTime');
-    if (lastSubmission) {
-      const timeSinceLast = Date.now() - parseInt(lastSubmission, 10);
-      if (timeSinceLast < 60000) {
-        setFormErrors({ _global: 'Please wait 60 seconds before sending another message.' });
-        return;
-      }
+
+    let lastSubmission: string | null = null;
+    try { lastSubmission = localStorage.getItem('lastSubmissionTime'); } catch { /* storage unavailable */ }
+    if (lastSubmission && Date.now() - parseInt(lastSubmission, 10) < 60000) {
+      setFormErrors({ _global: 'Please wait 60 seconds before sending another message.' });
+      return;
     }
+
     if (!validate()) return;
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
+
     try {
       const userLocation = await getUserLocation();
       const { date, time } = getSubmissionDateTime();
@@ -208,15 +108,16 @@ export const Contact: React.FC = () => {
         source_url: getSourceUrl() || 'Unknown URL',
         screen_resolution: getScreenResolution() || 'Unknown Resolution',
       };
+
       await emailjs.send('service_v8o1v3w', 'template_759k908', payload);
-      localStorage.setItem('lastSubmissionTime', Date.now().toString());
+      try { localStorage.setItem('lastSubmissionTime', Date.now().toString()); } catch { /* storage unavailable */ }
       setSubmitStatus('success');
       setFormErrors({});
       setFormData({ name: '', email: '', subject: '', message: '', honeypot: '' });
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
       console.error('EmailJS Error:', error);
-      setFormErrors({ _global: 'Failed to send message. Please try again later.' });
+      setFormErrors({ _global: 'Something went wrong sending that. Please try again, or email me directly.' });
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -224,322 +125,105 @@ export const Contact: React.FC = () => {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    navigator.clipboard?.writeText(PERSONAL_INFO.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
+  const errorProps = (key: string) =>
+    formErrors[key] ? { 'aria-invalid': true as const, 'aria-describedby': `contact-${key}-error` } : {};
+
   return (
-    <section
-      id="contact"
-      className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-x-clip"
-    >
-      <div className="section-separator mb-16" />
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    <section id="contact" className="wrap pt-20 md:pt-32 pb-16">
+      <Reveal className="grid-12 rule pt-4 mb-10 md:mb-16">
+        <span className="label col-span-1">(07)</span>
+        <span className="label col-span-3">Contact</span>
+      </Reveal>
 
-          {/* ── Left: Heading + contact info ── */}
-          <SplitLeft className="lg:col-span-6">
-
-            {/* Section number */}
-            <div className="flex items-center gap-2 mb-4">
-              <motion.span
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  originX: 0,
-                  display: 'inline-block',
-                  height: '2px',
-                  width: '28px',
-                  background: 'linear-gradient(90deg, var(--accent-cyan), var(--accent-violet))',
-                  borderRadius: '2px',
-                  boxShadow: '0 0 8px rgba(34,211,238,0.5)',
-                }}
-              />
-              <span
-                className="text-[11px] font-mono tracking-widest uppercase font-semibold"
-                style={{ color: 'var(--accent-cyan)' }}
-              >
-                // SECTION 09
-              </span>
-            </div>
-
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase font-display leading-[1.05] mb-3">
-              INITIALIZE<br className="hidden sm:inline" />{' '}
-              <span className="gradient-text">CONNECTION.</span>
-            </h2>
-
-            <p className="text-sm sm:text-base leading-relaxed mb-10 max-w-lg" style={{ color: 'var(--text-secondary)' }}>
-              Whether you have a complex backend challenge, an internship or full-time engineering
-              opportunity, or simply want to discuss Java optimization and distributed systems —
-              my inbox is open.
-            </p>
-
-            {/* Contact links */}
-            <div className="space-y-3 mb-10">
-              <ContactLink
-                href={PERSONAL_INFO.github}
-                icon={<Github />}
-                label={`github.com/${PERSONAL_INFO.githubUsername}`}
-                color="var(--text-primary)"
-                external
-              />
-              <ContactLink
-                href={PERSONAL_INFO.linkedin}
-                icon={<Linkedin />}
-                label={`linkedin.com/in/${PERSONAL_INFO.linkedinUsername}`}
-                color="#0a66c2"
-                external
-              />
-              <ContactLink
-                href={`mailto:${PERSONAL_INFO.email}`}
-                icon={<Mail />}
-                label={PERSONAL_INFO.email}
-                color="var(--accent-cyan)"
-                action={
-                  <motion.button
-                    onClick={handleCopyEmail}
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-1 rounded transition-colors cursor-pointer"
-                    style={{ color: copiedEmail ? '#10b981' : 'var(--text-muted)' }}
-                    title="Copy email"
-                    aria-label="Copy email"
-                  >
-                    {copiedEmail ? <Check size={13} /> : <Copy size={13} />}
-                  </motion.button>
-                }
-              />
-              <div className="flex items-center gap-3">
-                <span
-                  className="p-2 rounded-lg"
-                  style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
-                >
-                  <Phone size={14} style={{ color: 'var(--text-muted)' }} />
-                </span>
-                <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>
-                  {PERSONAL_INFO.phone}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span
-                  className="p-2 rounded-lg"
-                  style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.12)' }}
-                >
-                  <MapPin size={14} style={{ color: 'var(--text-muted)' }} />
-                </span>
-                <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>
-                  {PERSONAL_INFO.location}
-                </span>
-              </div>
-            </div>
-
-            {/* Availability badge */}
-            <motion.div
-              animate={{
-                boxShadow: [
-                  '0 0 15px rgba(16,185,129,0.1)',
-                  '0 0 30px rgba(16,185,129,0.2), 0 0 60px rgba(34,211,238,0.08)',
-                  '0 0 15px rgba(16,185,129,0.1)',
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs font-mono"
-              style={{
-                background: 'rgba(16,185,129,0.06)',
-                border: '1px solid rgba(16,185,129,0.25)',
-              }}
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" style={{ boxShadow: '0 0 8px #10b981' }} />
-              </span>
-              <span style={{ color: '#10b981' }}>STATUS: OPEN FOR NEW OPPORTUNITIES & COLLABORATIONS</span>
-            </motion.div>
-
-          </SplitLeft>
-
-          {/* ── Right: Glass terminal form ── */}
-          <SplitRight className="lg:col-span-6">
-            <div
-              className="rounded-2xl overflow-hidden shadow-2xl"
-              style={{
-                background: 'rgba(6,6,18,0.88)',
-                border: '1px solid rgba(34,211,238,0.18)',
-                boxShadow: '0 0 60px rgba(34,211,238,0.08), 0 0 120px rgba(139,92,246,0.05), 0 24px 80px rgba(0,0,0,0.7)',
-                backdropFilter: 'blur(28px)',
-                WebkitBackdropFilter: 'blur(28px)',
-              }}
-            >
-              {/* Terminal titlebar */}
-              <div
-                className="flex items-center justify-between px-4 py-3 border-b"
-                style={{
-                  background: 'rgba(34,211,238,0.04)',
-                  borderColor: 'rgba(34,211,238,0.12)',
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-red-500/70" />
-                  <span className="h-3 w-3 rounded-full bg-amber-400/70" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-400/70" />
-                </div>
-                <div className="flex items-center gap-2 text-[11px] font-mono" style={{ color: 'var(--text-muted)' }}>
-                  <Terminal size={11} style={{ color: 'var(--accent-cyan)' }} />
-                  <span className="gradient-text font-semibold">POST /api/v1/contact/send</span>
-                </div>
-                <Sparkles size={12} style={{ color: 'var(--accent-violet)', opacity: 0.6 }} />
-              </div>
-
-              {/* Prompt line */}
-              <div
-                className="flex items-center gap-2 px-5 py-2.5 text-[11px] font-mono border-b"
-                style={{ background: 'rgba(10,14,23,0.4)', borderColor: 'rgba(255,255,255,0.04)' }}
-              >
-                <span style={{ color: 'var(--accent-cyan)' }}>root@thesiya:~$</span>
-                <span className="text-white">initialize_contact_protocol.sh</span>
-                <span className="animate-blink" style={{ color: 'var(--accent-cyan)' }}>|</span>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5" noValidate>
-
-                {/* Honeypot */}
-                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
-                  <label htmlFor="honeypot">Leave this field empty if you are human</label>
-                  <input
-                    type="text"
-                    id="honeypot"
-                    name="honeypot"
-                    value={formData.honeypot}
-                    onChange={e => setFormData({ ...formData, honeypot: e.target.value })}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                {/* Global error */}
-                <AnimatePresence>
-                  {formErrors._global && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="p-3.5 rounded-xl text-xs flex items-center gap-3"
-                      style={{
-                        background: 'rgba(244,63,94,0.08)',
-                        border: '1px solid rgba(244,63,94,0.3)',
-                        color: '#f87171',
-                      }}
-                    >
-                      <AlertCircle size={16} className="flex-shrink-0" style={{ color: '#f43f5e' }} />
-                      <div>
-                        <p className="font-bold font-mono">HTTP 429 / 500: Error</p>
-                        <p className="text-[11px] mt-0.5 opacity-80">{formErrors._global}</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Success */}
-                <AnimatePresence>
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="p-3.5 rounded-xl text-xs flex items-center gap-3"
-                      style={{
-                        background: 'rgba(16,185,129,0.08)',
-                        border: '1px solid rgba(16,185,129,0.3)',
-                        color: '#6ee7b7',
-                      }}
-                    >
-                      <CheckCircle2 size={16} className="flex-shrink-0" style={{ color: '#10b981' }} />
-                      <div>
-                        <p className="font-bold font-mono">HTTP 200: Message Dispatched Successfully</p>
-                        <p className="text-[11px] mt-0.5 opacity-80">Thank you. I have received your message and will respond promptly.</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Name + Email row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <GlassInput
-                    id="contact-name"
-                    label="sender_name"
-                    required
-                    value={formData.name}
-                    onChange={v => setFormData({ ...formData, name: v })}
-                    placeholder="e.g. Alex Mercer"
-                    error={formErrors.name}
-                  />
-                  <GlassInput
-                    id="contact-email"
-                    label="sender_email"
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={v => setFormData({ ...formData, email: v })}
-                    placeholder="e.g. alex@company.com"
-                    error={formErrors.email}
-                  />
-                </div>
-
-                <GlassInput
-                  id="contact-subject"
-                  label="message_subject"
-                  value={formData.subject}
-                  onChange={v => setFormData({ ...formData, subject: v })}
-                  placeholder="e.g. Backend Developer Role / Project Discussion"
-                />
-
-                <GlassInput
-                  id="contact-message"
-                  label="payload_body"
-                  required
-                  textarea
-                  rows={4}
-                  value={formData.message}
-                  onChange={v => setFormData({ ...formData, message: v })}
-                  placeholder="Write your message or inquiry here..."
-                  error={formErrors.message}
-                />
-
-                {/* Submit */}
-                <MagneticButton
-                  id="submit-contact-btn"
-                  onClick={() => {}}
-                  className="w-full py-3.5 rounded-xl btn-primary flex items-center justify-center gap-2.5 text-xs font-mono font-black tracking-wider"
-                >
-                  <span className="relative z-10 flex items-center gap-2.5">
-                    <Send size={13} className={isSubmitting ? 'animate-bounce' : ''} />
-                    {isSubmitting ? 'DISPATCHING PAYLOAD...' : 'TRANSMIT MESSAGE'}
-                  </span>
-                </MagneticButton>
-
-              </form>
-
-              {/* Footer */}
-              <div
-                className="flex items-center justify-between px-5 py-2.5 border-t text-[10px] font-mono"
-                style={{ background: 'rgba(34,211,238,0.02)', borderColor: 'rgba(34,211,238,0.08)', color: 'var(--text-muted)' }}
-              >
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" style={{ boxShadow: '0 0 6px #10b981' }} />
-                  <span>encrypted_channel: active</span>
-                </span>
-                <span className="gradient-text font-bold">///</span>
-              </div>
-            </div>
-          </SplitRight>
-
+      <Reveal>
+        <h2 className="display text-[clamp(3.2rem,11vw,12rem)]">
+          Let’s <span className="serif">talk</span><span className="text-[var(--accent)]">.</span>
+        </h2>
+        <div className="mt-8 md:mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-3">
+          <a
+            href={`mailto:${PERSONAL_INFO.email}`}
+            className="text-[clamp(1.35rem,4vw,3.2rem)] font-medium tracking-[-0.03em] u-link break-all"
+          >
+            {PERSONAL_INFO.email}
+          </a>
+          <button onClick={handleCopyEmail} className="label !text-[var(--ink)] u-link cursor-pointer" aria-live="polite">
+            {copiedEmail ? 'Copied ✓' : 'Copy'}
+          </button>
         </div>
+      </Reveal>
+
+      <div className="grid-12 gap-y-16 mt-20 md:mt-32">
+        {/* ── Form ── */}
+        <Reveal className="col-span-4 md:col-span-7">
+          <p className="label mb-8">Or leave a message — I usually reply within a day.</p>
+          <form onSubmit={handleSubmit} noValidate className="space-y-8 relative">
+            {/* Honeypot (hidden from humans) */}
+            <div aria-hidden="true" className="absolute -left-[9999px]">
+              <label htmlFor="honeypot">Leave this field empty</label>
+              <input type="text" id="honeypot" name="honeypot" value={formData.honeypot} onChange={set('honeypot')} tabIndex={-1} autoComplete="off" />
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-8">
+              <Field id="contact-name" label="Name" required error={formErrors.name}>
+                <input id="contact-name" className="field" autoComplete="name" placeholder="Your name" value={formData.name} onChange={set('name')} {...errorProps('name')} />
+              </Field>
+              <Field id="contact-email" label="Email" required error={formErrors.email}>
+                <input id="contact-email" type="email" className="field" autoComplete="email" placeholder="you@company.com" value={formData.email} onChange={set('email')} {...errorProps('email')} />
+              </Field>
+            </div>
+            <Field id="contact-subject" label="Subject">
+              <input id="contact-subject" className="field" placeholder="Role, project, or just hello" value={formData.subject} onChange={set('subject')} />
+            </Field>
+            <Field id="contact-message" label="Message" required error={formErrors.message}>
+              <textarea id="contact-message" rows={4} className="field resize-y min-h-[120px]" placeholder="Tell me a bit about it…" value={formData.message} onChange={set('message')} {...errorProps('message')} />
+            </Field>
+
+            {formErrors._global && <p role="alert" className="text-[var(--accent-ink)]">{formErrors._global}</p>}
+            {submitStatus === 'success' && (
+              <p role="status" className="text-lg">Thanks — message received. I’ll be in touch soon.</p>
+            )}
+
+            <button type="submit" disabled={isSubmitting} className="btn-ink w-full sm:w-auto sm:min-w-[220px] justify-between">
+              {isSubmitting ? 'Sending…' : 'Send message'} <span aria-hidden>→</span>
+            </button>
+          </form>
+        </Reveal>
+
+        {/* ── Details ── */}
+        <Reveal delay={0.08} className="col-span-4 md:col-start-9 md:col-span-4 space-y-10">
+          <div>
+            <p className="label mb-3">Elsewhere</p>
+            <ul className="border-b border-[var(--rule)]">
+              {PROFILE_LINKS.map(p => (
+                <li key={p.id} className="rule">
+                  <a href={p.url} target="_blank" rel="noreferrer" className="row-hover group flex justify-between py-3 px-1">
+                    <span className="text-lg">{p.name}</span>
+                    <span className="transition-transform duration-300 group-hover:rotate-45">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <p className="label mb-2">Phone</p>
+              <a href={`tel:${PERSONAL_INFO.phone.replace(/\s/g, '')}`} className="u-link">{PERSONAL_INFO.phone}</a>
+            </div>
+            <div>
+              <p className="label mb-2">Location</p>
+              <p>{PERSONAL_INFO.location}</p>
+            </div>
+          </div>
+          <a id="resume" href={PERSONAL_INFO.resumeUrl} target="_blank" rel="noreferrer" className="btn-ink w-full justify-between">
+            Download résumé (PDF) <span aria-hidden>↓</span>
+          </a>
+        </Reveal>
       </div>
-      <div className="section-separator mt-16" />
     </section>
   );
 };
